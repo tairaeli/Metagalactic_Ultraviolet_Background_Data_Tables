@@ -4,9 +4,10 @@ output_file = ./figures
 [galaxy_settings]
 nrays = 100
 gal_pattern = 2392
-redshift = 18
+redshift = 2.5
 
 [uvb_analysis]
-uvb_names = FG09 FG20 HM12 PW19
-uvb_filenames = /mnt/research/galaxies-REU/tairaeli/uvb_dat/fg2009_ss_hr.h5 /mnt/research/galaxies-REU/tairaeli/uvb_dat/fg_test_13.h5 /mnt/research/galaxies-REU/tairaeli/uvb_dat/hm2012_ss_hr.h5 /mnt/research/galaxies-REU/tairaeli/uvb_dat/pw_test_13_2.h5
+uvb_names = FG20
+uvb_filenames = /mnt/research/galaxies-REU/tairaeli/uvb_dat/fg_test_13.h5
+ion_list = O_VI
 

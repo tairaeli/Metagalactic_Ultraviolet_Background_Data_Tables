@@ -34,37 +34,13 @@ halo = plot_args["galaxy_settings"]["gal_pattern"]
 rs = plot_args["galaxy_settings"]["redshift"]
 nrays = int(plot_args["galaxy_settings"]["nrays"])
 
-# gets the true rs needed
-true_rs = get_true_rs(int(rs))
-
 # identifying the path argument as a variable
 out_path = plot_args["base_settings"]["output_file"]
-# path = os.path.expandvars(os.path.expanduser(out_file))
-# halo_path = path+'/halo'+f'{halo}'
-# out_path = halo_path + '/redshift'+f'{true_rs}'
 
 # initializing UVB data
 uvb_names = plot_args["uvb_analysis"]["uvb_names"].split(" ")
 uvb_filenames = plot_args["uvb_analysis"]["uvb_filenames"].split(" ")
-sal_dat = None
-
-rs_ids = [11,4,11,4]
-
-old_gen = [uvb_names[0], uvb_names[2], uvb_names[1]]
-old_fname = [uvb_filenames[0], uvb_filenames[2], uvb_filenames[1]]
-old_rs = [rs_ids[0], rs_ids[2], rs_ids[1]]
-
-new_gen = [uvb_names[1], uvb_names[3], uvb_names[3]]
-new_fname = [uvb_filenames[1], uvb_filenames[3], uvb_filenames[3]]
-new_rs = [rs_ids[1], rs_ids[3], rs_ids[3]]
-
-# contains shortened UVB names
-short_uvb_names = {"FG_2009":"FG09", "FG_2020":"FG20",
-                   "HM_2012":"HM12", "PCW_2019":"PW19"}
-
-# defining ion list and nunber of ions
-ion_list = ["H_I", "O_VI"]
-# can also take in list of arguments from parameter file
+ion_list = plot_args["uvb_analysis"]["ion_list"].split(" ")
 num_ion = len(ion_list)
 
 # defining size of axis labels
@@ -82,14 +58,14 @@ ub_cutoff = 0 #-0.00001
 comp_paths = {}
 
 # iterating through each parwise comparison
-for i in range(len(old_gen)):
-    print(f"Comparing Ion Fractions {new_gen[i]} and {old_gen[i]}") 
+for i in range(len(uvb_names)):
+    print(f"Creating ion fraction plot for {uvb_names[i]}") 
     # iterating through each ion
     for ion in ion_list:
         print("Ion: "+ion)
 
         # creating figure
-        fig, ax = plt.subplots(1,3, figsize=(15,5))
+        fig, ax = plt.subplots(1, 1, figsize=(5,5))
         cmap = cm.get_cmap('viridis')
         im = cm.ScalarMappable()
         w_size = 10
@@ -98,92 +74,43 @@ for i in range(len(old_gen)):
         istate_num = roman.fromRoman(istate)
         
         # loading in "old" data and masking out data based on set bounds
-        old_f = h5py.File(old_fname[i],'r')
-        old_col_dens = old_f[atom].attrs["Parameter1"]
-        old_temp = old_f[atom].attrs["Temperature"]
-        old_f_filter = old_f[atom][istate_num-1,:,old_rs[i],:]
-        old_f_filter[old_f_filter < lb_cutoff] = np.nan
-        old_f_filter[old_f_filter > ub_cutoff] = np.nan
-        old_f.close()
-        
-        # repeating process with "new" data
-        new_f = h5py.File(new_fname[i],'r')
-        new_col_dens = new_f[atom].attrs["Parameter1"]
-        new_temp = new_f[atom].attrs["Temperature"]
-        new_f_filter = new_f[atom][istate_num-1,:,new_rs[i],:]
-        new_f_filter[new_f_filter < lb_cutoff] = np.nan
-        new_f_filter[new_f_filter > ub_cutoff] = np.nan
-        new_f.close()
-        
-        # loading comparison paths. creating dictionaries if they don't exist
-        comp_paths[f"{old_gen[i]}_{new_gen[i]}"] = out_path+f"/{old_gen[i]}_{new_gen[i]}_comp"
-        if os.path.exists(comp_paths[f"{old_gen[i]}_{new_gen[i]}"]) == False:
-            os.mkdir(comp_paths[f"{old_gen[i]}_{new_gen[i]}"])
+        atom, istate = ion_list[0].split("_")
+        istate_num = roman.fromRoman(istate)
 
-        ion_path = comp_paths[f"{old_gen[i]}_{new_gen[i]}"]+"/"+ion
-        if os.path.exists(ion_path) == False:
-            os.mkdir(ion_path)
+        itable_f = h5py.File(uvb_filenames[0],'r')
+        col_dens = itable_f[atom].attrs["Parameter1"]
+        temp = itable_f[atom].attrs["Temperature"]
+        rs_list = itable_f[atom].attrs["Parameter2"]
 
-        # adjusting shapes of dictionaries if they do not match 
-        if new_f_filter.shape != old_f_filter.shape:
-            new_f_filter = new_f_filter[0:old_f_filter.shape[0]]
-            new_col_dens = new_col_dens[0:len(old_col_dens)]
+        # store rs and index in ionization table
+        rs_dat = [999,999]
+        for j,rs_temp in enumerate(rs_list):
+            if np.abs(float(rs)-rs_temp) < rs_dat[0]:
+                rs_dat[0] = np.abs(float(rs)-rs_temp)
+                rs_dat[1] = j
+        itable_f_filter = itable_f[atom][istate_num-1,:,rs_dat[1],:]
+        itable_f_filter[itable_f_filter < lb_cutoff] = np.nan
+        itable_f_filter[itable_f_filter > ub_cutoff] = np.nan
+        itable_f.close()
 
         # setting up the 'old' 2d histogram
-        f1 = ax[0].pcolormesh(10**old_col_dens, 10**old_temp, old_f_filter.T, 
+        f1 = ax.pcolormesh(10**col_dens, 10**temp, itable_f_filter.T, 
                                 cmap = cmap)
         # setting up contours 
-        ax[0].contour(10**old_col_dens, 10**old_temp, old_f_filter.T, 
+        ax.contour(10**col_dens, 10**temp, itable_f_filter.T, 
                         colors = "black")
 
-        ax[0].set_ylabel("$T$ [K]", fontsize=ax_lab_size)
-        ax[0].set_title("(a)")
-        ax[0].set_yscale("log")
-        ax[0].set_xscale("log")
+        ax.set_ylabel("$T$ [K]", fontsize=ax_lab_size)
+        ax.set_xlabel(r"n [$cm^{-3}$]", fontsize=ax_lab_size)
+        ax.set_yscale("log")
+        ax.set_xscale("log")
 
-        ax[0].text(0.1,0.82,short_uvb_names[old_gen[i]], 
-                fontsize=ax_lab_size+4, transform=ax[0].transAxes)
-
-        # setting up 'new' 2d historgram
-        f2 = ax[1].pcolormesh(10**new_col_dens, 10**new_temp, new_f_filter.T, 
-                                cmap = cmap)
-        # adding contours
-        ax[1].contour(10**new_col_dens, 10**new_temp, new_f_filter.T, 
-                        colors = "black")
-
-        ax[1].set_title("(b)")
-        ax[1].set_yscale("log")
-        ax[1].set_xscale("log")
-        cb1 = fig.colorbar(f1,ax = ax[1])
-
-        ax[1].text(1.23, 0.2, 
-                f'log({ion_name_dict[ion]}) Ion Fraction', fontsize=ax_lab_size,
-                transform=ax[1].transAxes, rotation=270)
-        
-        ax[1].text(0.1,0.82,short_uvb_names[new_gen[i]], 
-                fontsize=ax_lab_size+4, transform=ax[1].transAxes)
-        
-        # setting up ratio comparison 2d histogram
-        f3 = ax[2].pcolormesh(10**old_col_dens, 10**old_temp, (new_f_filter - old_f_filter).T)
-        ax[2].set_title("(c)")
-        ax[2].set_yscale("log")
-        ax[2].set_xscale("log")
-        ax[2].set_ylabel("$T$ [K]", fontsize=ax_lab_size)
-        cb2 = fig.colorbar(f3,ax = ax[2])
-
-        ax[2].text(1.28, 0.1, 
-                f'log({ion_name_dict[ion]}) Fraction Ratio', fontsize=ax_lab_size,
-                transform=ax[2].transAxes, rotation=270)
-        
-        ax[2].text(0.1,0.82,short_uvb_names[new_gen[i]]+"/"+short_uvb_names[old_gen[i]],
-                fontsize=ax_lab_size+4, transform=ax[2].transAxes)
-
-        fig.supxlabel(r"n [$cm^{-3}$]", fontsize=ax_lab_size)
+        ax.text(0.1,0.82,uvb_names[i], 
+                fontsize=ax_lab_size+4, transform=ax.transAxes)
 
         plt.tight_layout()
         # saving figure
-        plt.savefig(out_path+f"/{old_gen[i]}_{new_gen[i]}_comp/{ion}/ion_frac_{old_gen[i]}_{new_gen[i]}_{ion}.png",
+        plt.savefig(out_path+f"/ion_frac_{uvb_names[i]}_{ion}.png",
                     dpi=400,bbox_inches='tight')
         plt.clf()
-
 
