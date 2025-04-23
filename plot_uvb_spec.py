@@ -47,7 +47,7 @@ parser.add_argument('-out_path', action='store',
 
 parser.add_argument('-table_dir', action='store', 
                     required=False, dest='table_dir', 
-                    default= "./data_tables/",
+                    default= "./data_table_example/",
                     help='Directory where UVB tables have been saved to. Should be the only items in the directory')
 
 parser.add_argument('-uvb_names', action='store', 
@@ -55,7 +55,7 @@ parser.add_argument('-uvb_names', action='store',
                     default= "FG09 FG20 HM12 PW19",
                     help='Names of UVB tables')
 
-parser.add_argument('-redshift', action='store', 
+parser.add_argument('-rs', action='store', 
                     required=False, dest='rs', 
                     default= "2.5",
                     help='redshift to plot. Not all redshifts between UVBs are the sound, so will pick the closest redshift ')
@@ -66,6 +66,7 @@ args = parser.parse_args()
 table_loc = args.table_dir
 table_dirs = os.listdir(table_loc)
 uvb_names = args.uvb_names.split(" ")
+print(uvb_names)
 rs = float(args.rs)
 
 # reading in data
@@ -87,11 +88,7 @@ for i,table in enumerate(table_dirs):
     print(uvb_dir+"/"+rs_dir[rs_dist[1]])
     uvb_tables[uvb_names[i]] = pd.read_csv(uvb_dir+"/"+rs_dir[rs_dist[1]], 
                                            usecols = ["E (eV)",  "I (erg/s/cm**2)"])
-    print(uvb_tables[uvb_names[i]].head())
 
-# contains shortened UVB names
-short_uvb_names = {"FG_2009":"FG09", "FG_2020":"FG20",
-                   "HM_2012":"HM12", "PCW_2019":"PW19"}
 
 # reading in ion data
 ion_energies = pd.read_csv("./ionization_energies.txt", delimiter = "  ")
@@ -183,6 +180,6 @@ ax.set_yscale("log")
 ax.set_xscale("log")
 ax.set_ylabel(r"4$\pi$$\nu$$J_{\nu}$ (erg $s^{-1}$ $cm^{-2}$)", fontsize = 16)
 ax.set_xlabel("log(E) (eV)", fontsize = 16)
-plt.savefig("./uvb_intens_plot_draft.pdf")
+plt.savefig("./uvb_intens_plot.png")
 
 print("Plot Complete")

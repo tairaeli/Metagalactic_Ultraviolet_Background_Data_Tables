@@ -44,7 +44,7 @@ parser = argparse.ArgumentParser(description = "Generate SALSA data from trident
 parser.add_argument('-out_path', action='store', 
                     required=False, dest='out_path', 
                     help='Path to UVB file',
-                    default="./data_tables/")
+                    default="./data_table_example/")
 
 parser.add_argument('-uvb_names', action='store', 
                     required=False, dest='uvb_name', 

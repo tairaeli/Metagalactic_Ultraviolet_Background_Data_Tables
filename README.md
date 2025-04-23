@@ -40,7 +40,7 @@ Code for remaking CLOUDY-formatted data into a more user-friendly csv format.
 
 **Arguments:**
 
-* `-out_path`: path to directory where data tables are output. By default is set to output to **data_tables**
+* `-out_path`: path to directory where data tables are output. By default is set to output to **data\_tables\_example**
 
 * `-uvb_names`: shorthand names for each UVB. Should be separated by spaces and in the same order as the directory paths in *uvb_paths*
 
@@ -48,7 +48,7 @@ Code for remaking CLOUDY-formatted data into a more user-friendly csv format.
 
 **Example**
 ```
-python make_UVB_data_table.py -out_path ./data_tables -uvb_names fg09 fg20 hm12 pw19 -uvb_paths ./cloudy_formatted_data/fg09 ./cloudy_formatted_data/fg20 ./cloudy_formatted_data/hm12 ./cloudy_formatted_data/pw19
+python make_UVB_data_table.py -out_path ./data_table_example/ -uvb_names "fg09 fg20 hm12 pw19" -uvb_paths "./cloudy_formatted_data/fg09 ./cloudy_formatted_data/fg20 ./cloudy_formatted_data/hm12 ./cloudy_formatted_data/pw19"
 ```
 
 ### plot\_uvb\_spec.py
@@ -67,7 +67,7 @@ the data output from `make_UVB_data_table.py` (i.e. `data_tables` directory)
 
 **Example**
 ```
-python plot_uvb_spec.py -out_path ./ -table_dir ./data_tables/ -uvb_names FG09 FG20 HM12 PW19 -rs 2.5
+python plot_uvb_spec.py -out_path ./ -table_dir ./data_table_example/ -uvb_names "fg09 fg20 hm12 pw19" -rs 2.5
 ```
 
 ## Dependencies
