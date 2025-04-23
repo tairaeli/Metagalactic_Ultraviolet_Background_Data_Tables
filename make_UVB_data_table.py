@@ -1,5 +1,5 @@
 """
-Makes a single data file containing data for four UVBs: Faucher-Gruigere 2009, 
+Reformats cloudy data to match : Faucher-Gruigere 2009, 
 Faucher-Gruigere 2020, Haart and Madau 2012, and Puchwein et al. 2019 for 
 redshifts ~0-10. All intensities the same units of erg/s/cm**2.
 """
@@ -53,8 +53,8 @@ parser.add_argument('-uvb_names', action='store',
 
 parser.add_argument('-uvb_paths', action='store', 
                     required=False, dest='uvb_paths', 
-                    help='Label to assigned to uvb.',
-                    default="/mnt/research/galaxies-REU/tairaeli/fg_2009_uvb_dat /mnt/research/galaxies-REU/tairaeli/uvb_intens/fg20 /mnt/research/galaxies-REU/tairaeli/uvb_intens/hm12 /mnt/scratch/tairaeli/pcw_uvb_dat")
+                    help='Paths to UVB data',
+                    default="./cloudy_formatted_data/fg09 ./cloudy_formatted_data/fg20 ./cloudy_formatted_data/hm12 ./cloudy_formatted_data/pw19")
 
 args = parser.parse_args()
 
