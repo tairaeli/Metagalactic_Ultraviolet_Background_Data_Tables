@@ -36,6 +36,22 @@ in more detail within.
 ### make\_UVB\_data\_table.py
 Code for remaking cloudy-formatted data into a more user-friendly csv format
 
+Arguments:
+
+`-out_path`: path to directory where data tables are output
+
+`-uvb_names`: shorthand names for each UVB. Should be separated by spaces
+
+`-uvb_paths`: paths to directories containing CLOUDY-formatted UVBs. Each path should be separated by a space
+
 ### plot\_uvb\_spec.py
 Creates a lineplot of UVB intensity for each UVB from $10$ - $10^{2.3}$ eV. Uses
 the data output from *make\_UVB\_data\_table.py* (i.e. data_tables directory)
+
+Arguments:
+
+`-out_path`: path to directory where figures are output
+
+`-table_dir`: directory where UVB tables have been saved
+
+`-uvb_paths`: redshift to plot. Not all redshifts between UVBs are the sound, so will pick the closest redshift

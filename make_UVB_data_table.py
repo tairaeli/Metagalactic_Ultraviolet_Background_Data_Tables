@@ -102,15 +102,11 @@ for filename in os.listdir(fg09_dir):
         
         n1 = rs//1
         n2= rs%1
-        n2 = f"{n2:.2f}"[2:]
+        n2 = f"{n2:.6f}"[2:]
         
         fg09.to_csv(out_dir+f"{uvb_names[0]}/z_{int(n1):02}"+"."+f"{n2}.csv")
         print("OUT:",f"{uvb_names[0]}/z_{int(n1):02}"+"."+f"{n2}.csv")
 
-# processing the other UVBs
-# dir_list = ["/mnt/research/galaxies-REU/tairaeli/uvb_intens/fg20",
-            # "/mnt/research/galaxies-REU/tairaeli/uvb_intens/hm12",
-            # "/mnt/scratch/tairaeli/pcw_uvb_dat"]
 dir_list = uvb_paths[1:]
 
 for i,dir_loc in enumerate(dir_list):
@@ -134,7 +130,7 @@ for i,dir_loc in enumerate(dir_list):
             
             n1 = rs//1
             n2= rs%1
-            n2 = f"{n2:.2f}"[2:]
+            n2 = f"{n2:.6f}"[2:]
             
             out_df.to_csv(out_dir+f"{uvb_names[i+1]}/z_{int(n1):02}"+"."+f"{n2}.csv")
             print("OUT:",f"{uvb_names[i+1]}/z_{int(n1):02}"+"."+f"{n2}.csv")

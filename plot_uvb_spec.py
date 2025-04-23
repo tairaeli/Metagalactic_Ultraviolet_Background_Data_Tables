@@ -40,7 +40,11 @@ def read_cloudy_in(file):
 # reading in arguments
 parser = argparse.ArgumentParser(description = "Generate UVB data tables for different UVBs")
 
-# TODO replace hardcoded UVB imports with arguments
+parser.add_argument('-out_path', action='store', 
+                    required=False, dest='rs', 
+                    default= "./",
+                    help='output directory for figure')
+
 parser.add_argument('-table_dir', action='store', 
                     required=False, dest='table_dir', 
                     default= "./data_tables/",
@@ -54,7 +58,7 @@ parser.add_argument('-uvb_names', action='store',
 parser.add_argument('-redshift', action='store', 
                     required=False, dest='rs', 
                     default= "2.5",
-                    help='redshift to plot. Not all redshifts betweeen UVBs are the sound, so will pick the closest redshift ')
+                    help='redshift to plot. Not all redshifts between UVBs are the sound, so will pick the closest redshift ')
 
 args = parser.parse_args()
 
@@ -84,33 +88,6 @@ for i,table in enumerate(table_dirs):
     uvb_tables[uvb_names[i]] = pd.read_csv(uvb_dir+"/"+rs_dir[rs_dist[1]], 
                                            usecols = ["E (eV)",  "I (erg/s/cm**2)"])
     print(uvb_tables[uvb_names[i]].head())
-    
-
-'''
-fg2020 = read_cloudy_in("/mnt/scratch/tairaeli/fg_2020_uvb_dat/z_2.5000e+00.out")
-fg2020[1] = fg2020[1]*13.605703976
-fg2020[3] = ((fg2020[1].to_list()*u.eV).to("J")/(u.h)).to_value()
-fg2020[4] = (10**fg2020[2])*4*np.pi*fg2020[3]
-
-hm2012 = read_cloudy_in("/mnt/home/tairaeli/astro_libs/cloudy_cooling_tools/examples/grackle/HM12_UVB/z_2.5481e+00.out")
-hm2012[1] = hm2012[1]*13.605703976
-hm2012[3] = ((hm2012[1].to_list()*u.eV).to("J")/(u.h)).to_value()
-hm2012[4] = (10**hm2012[2])*4*np.pi*hm2012[3]
-
-pcw2019 = read_cloudy_in("/mnt/scratch/tairaeli/pcw_uvb_dat/z_2.4790e+00.out")
-pcw2019[1] = pcw2019[1]*13.605703976
-pcw2019[3] = ((pcw2019[1].to_list()*u.eV).to("J")/(u.h)).to_value()
-pcw2019[4] = (10**pcw2019[2])*4*np.pi*pcw2019[3]
-
-# reading in fg09 differently so it matches the units of the other UVBs
-fg2009 = pd.read_csv("/mnt/research/galaxies-REU/tairaeli/fg_2009_uvb_dat/fg_uvb_dec11_z_2.5.dat",
-                     skiprows=2,delimiter="   ",
-                     header=None)
-
-fg2009_ev = fg2009[0]*13.605703976
-fg2009_int = ((fg2009_ev.to_list()*u.eV).to("J")/(u.h)).to_value() # 1/s
-fg2009_int = (fg2009[1]*10**(-21))*4*np.pi*fg2009_int
-'''
 
 # contains shortened UVB names
 short_uvb_names = {"FG_2009":"FG09", "FG_2020":"FG20",
@@ -192,22 +169,6 @@ ax.text(ion_energies["ionization energy (eV)"][7]-10**1.05, 10**(-4.4),
 ax.text(ion_energies["ionization energy (eV)"][3]-10**1.2, 10**(-4.4),
                 ion_name_dict[ion_energies["ion"][3]], 
                 fontsize=fs, color = "black", rotation="vertical")
-
-# plotting spectra
-"""
-ax.plot(pcw2019[1].astype(np.float),
-         pcw2019[4].astype(np.float), label = "PW19",
-         linewidth = lw)
-ax.plot(fg2020[1].astype(np.float),
-         fg2020[4].astype(np.float), label = "FG20",
-         linewidth = lw)
-ax.plot(fg2009_ev,
-         fg2009_int, label = "FG09",
-         linewidth = lw)
-ax.plot(hm2012[1].astype(np.float),
-         hm2012[4].astype(np.float), label = "HM12",
-         linewidth = lw)
-"""
 
 for i, table in enumerate(uvb_tables.keys()):
     # print(uvb_tables[i].head())
