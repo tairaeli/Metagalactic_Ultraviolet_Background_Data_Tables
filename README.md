@@ -17,9 +17,8 @@ the codes in the directory.
 
 ## Directories
 
-### cloudy\_formatted\_data (I'm concerned about plagaism here)
-Stores data formatted for use with the [`cloudy_cooling_tools`](https://github.com/brittonsmith/cloudy_cooling_tools) repository to generate ionization tables.
-Directories are also used by `make_UVB_data_table.py` as input files for reformatting.
+### cloudy\_formatted\_data
+Stores example data formatted for [`cloudy_cooling_tools`](https://github.com/brittonsmith/cloudy_cooling_tools) to be used by `make_UVB_data_table.py` as input files for reformatting.
 
 ### data\_tables
 Contains directories for the reformatted UVBs and is the default containter 
