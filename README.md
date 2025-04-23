@@ -34,6 +34,8 @@ in more detail within.
 
 ## Scripts
 
+Several of these scripts have hardcoded paths that need to be edited before they can be run.
+
 ### make\_UVB\_data\_table.py
 Code for remaking CLOUDY-formatted data into a more user-friendly csv format.
 
@@ -56,3 +58,22 @@ the data output from `make_UVB_data_table.py` (i.e. `data_tables` directory)
 * `-table_dir`: directory where UVB tables have been saved
 
 * `-uvb_paths`: redshift to plot. Not all redshifts between UVBs are the sound, so will pick the closest redshift
+
+## Dependencies
+
+### Python
+
+The Python scripts in this repository require the following libraries:
+
+* [yt](https://yt-project.org/)
+* [mpi4py](https://mpi4py.readthedocs.io/en/stable/)
+* [NumPy](https://numpy.org/)
+* [SciPy](https://scipy.org/)
+* [matplotlib](https://matplotlib.org/)
+* [h5py](https://www.h5py.org/)
+* [roman](https://pypi.org/project/roman/)
+
+### Other Software
+
+* [CLOUDY](https://gitlab.nublado.org/cloudy/cloudy)
+* [`cloudy_cooling_tools`](https://github.com/brittonsmith/cloudy_cooling_tools)
