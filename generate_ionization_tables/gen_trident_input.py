@@ -2,7 +2,7 @@
 import sys
 
 # setting path to local installation of cloudy grids within cloudy cooling tools
-cloudy_grid_path = "/mnt/home/tairaeli/astro_libs/cloudy_cooling_tools/cloudy_grids"
+cloudy_grid_path = "/path/to/cloudy_cooling_tools/cloudy_grids"
 
 # adding path to system
 sys.path.append(cloudy_grid_path)
@@ -12,8 +12,8 @@ from cloudy_grids import convert_ion_balance_tables
 
 # converting '.run' files from useable '.h5' files
 convert_ion_balance_tables(
-    "/mnt/scratch/tairaeli/pcw_ionization_02_25/test1.run", # path to file created from runfile combination
-    "/mnt/research/galaxies-REU/tairaeli/uvb_dat/pw_test_13_2.h5", # path to output directory
+    "/path/to/cloudy_output.run", # path to file created from running CLOUDY
+    "/path/to/my_generated_table.h5", # path to output that will be created
     ["H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", # list of ions
      "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca", 
      "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn"])

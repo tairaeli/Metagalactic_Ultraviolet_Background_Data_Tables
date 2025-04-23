@@ -67,7 +67,7 @@ if __name__ == "__main__":
     par_file    = "./uvb_params.par"
 
     # CIAOLoop file location. Set to local installation of CIAOLoop
-    CIAOLoop_file = "/mnt/home/tairaeli/astro_libs/cloudy_cooling_tools/CIAOLoop"
+    CIAOLoop_file = "/path/to/cloudy_cooling_tools/CIAOLoop"
 
     for i in yt.parallel_objects(range(start_part, end_part+1), dynamic=True, njobs=-1):
         

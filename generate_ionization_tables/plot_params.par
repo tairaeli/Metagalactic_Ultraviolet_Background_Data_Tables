@@ -8,6 +8,6 @@ redshift = 2.5
 
 [uvb_analysis]
 uvb_names = FG20
-uvb_filenames = /mnt/research/galaxies-REU/tairaeli/uvb_dat/fg_test_13.h5
+uvb_filenames = /path/to/my_uvb.h5
 ion_list = O_VI
 

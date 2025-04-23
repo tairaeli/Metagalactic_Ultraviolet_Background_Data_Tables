@@ -6,7 +6,7 @@
 ##################### Run parameters ######################
 
 # path to Cloudy executable
-cloudyExe               = /mnt/home/tairaeli/astro_libs/c10.00-b/source/cloudy.exe
+cloudyExe               = /path/to/cloudy.exe
 
 # don't save raw output from Cloudy
 saveCloudyOutputFiles   = 0
@@ -18,7 +18,7 @@ exitOnCrash             = 1
 outputFilePrefix        = test1
 
 # output directory
-outputDir               = /mnt/scratch/tairaeli/pcw_ionization_02_25
+outputDir               = /path/to/output/
 
 # index of first run
 runStartIndex           = 1
@@ -69,6 +69,6 @@ command iterate to convergence
 
 loop [hden] (-9;4;0.13)
 
-# loop [init "/mnt/scratch/tairaeli/fg_2020_uvb_dat/z_*.out"] 1.4800e+00 1.6000e+00 2.0200e+00 2.1600e+00 2.4800e+00 2.6400e+00
-
-loop [init "/mnt/scratch/tairaeli/pcw_uvb_dat/z_*.out"] 1.4870e+00 1.6090e+00 2.0130e+00 2.1600e+00 2.4790e+00 2.6490e+00
+# List the desired redshifts
+# TODO update this loop to reflect the provided sample data
+loop [init "../cloudy_formatted_data/PW19/z_*.out"] 1.4870e+00 1.6090e+00 2.0130e+00 2.1600e+00 2.4790e+00 2.6490e+00
