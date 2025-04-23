@@ -16,26 +16,26 @@ the codes in the directory
 
 ## Directories
 
-### cloudy_formatted_data (I'm concerned about plagaism here)
+### cloudy\_formatted\_data (I'm concerned about plagaism here)
 Stores data formatted for use in cloudy_cooling_tools to generate ionization tables.
-Directories are also used by *make_UVB_data_table.py* as input files for reformatting.
+Directories are also used by *make\_UVB\_data\_table.py* as input files for reformatting.
 
-### data_tables
+### data\_tables
 Contains directories for the reformatted UVBs and is the default containter 
-for generating UVBs via *make_UVB_data_table.py*. The tables show the intensity
+for generating UVBs via *make\_UVB\_data\_table.py*. The tables show the intensity
 (erg$s^{-1}cm^{-2}$) binned in different energies (eV). This is done for each UVB
 over a range of $z\approx 10$ to $z\approx 10$ with some variation between models.
 
-### generate_ionization_tables
-Code for running *cloudy_cooling_tools* for creating ionization tables. Takes in
+### generate\_ionization\_tables
+Code for running *cloudy\_cooling\_tools* for creating ionization tables. Takes in
 cloudy-formatted data along with a large suite of parameter files that are described
 in more detail within.
 
 ## Scripts
 
-### make_UVB_data_table.py
+### make\_UVB\_data\_table.py
 Code for remaking cloudy-formatted data into a more user-friendly csv format
 
-### plot_uvb_spec.py
+### plot\_uvb\_spec.py
 Creates a lineplot of UVB intensity for each UVB from $10$ - $10^{2.3}$ eV. Uses
-the data output from *make_UVB_data_table.py* (i.e. data_tables directory)
+the data output from *make\_UVB\_data\_table.py* (i.e. data_tables directory)
