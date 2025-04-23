@@ -40,11 +40,16 @@ Code for remaking CLOUDY-formatted data into a more user-friendly csv format.
 
 **Arguments:**
 
-* `-out_path`: path to directory where data tables are output
+* `-out_path`: path to directory where data tables are output. By default is set to output to **data_tables**
 
-* `-uvb_names`: shorthand names for each UVB. Should be separated by spaces
+* `-uvb_names`: shorthand names for each UVB. Should be separated by spaces and in the same order as the directory paths in *uvb_paths*
 
 * `-uvb_paths`: paths to directories containing CLOUDY-formatted UVBs. Each path should be separated by a space
+
+**Example**
+```
+python make_UVB_data_table.py -out_path ./data_tables -uvb_names fg09 fg20 hm12 pw19 -uvb_paths ./cloudy_formatted_data/fg09 ./cloudy_formatted_data/fg20 ./cloudy_formatted_data/hm12 ./cloudy_formatted_data/pw19
+```
 
 ### plot\_uvb\_spec.py
 Creates a lineplot of UVB intensity for each UVB from $10$ - $10^{2.3}$ eV. Uses
@@ -56,7 +61,14 @@ the data output from `make_UVB_data_table.py` (i.e. `data_tables` directory)
 
 * `-table_dir`: directory where UVB tables have been saved
 
-* `-uvb_paths`: redshift to plot. Not all redshifts between UVBs are the sound, so will pick the closest redshift
+* `-uvb_names`: shorthand names for each UVB. Should be separated by spaces and should match the names used in *make\_UVB\_data\_table.py*
+
+* `-rs`: redshift to plot. Not all redshifts between UVBs are the same, so will pick the closest redshifts to the selected value for each UVB
+
+**Example**
+```
+python plot_uvb_spec.py -out_path ./ -table_dir ./data_tables/ -uvb_names FG09 FG20 HM12 PW19 -rs 2.5
+```
 
 ## Dependencies
 
