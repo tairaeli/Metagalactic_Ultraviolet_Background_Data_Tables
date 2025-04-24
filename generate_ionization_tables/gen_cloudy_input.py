@@ -4,68 +4,43 @@ import unyt as u
 from scipy.interpolate import interp1d
 import argparse
 import pickle
+import pandas as pd
 import os
 
 
 parser = argparse.ArgumentParser(description = "Pipeline variables and constants for running FSPS")
-parser.add_argument('--ds', nargs='?', action='store', required=True, dest='path', help='Path where  output data will be stored')
-parser.add_argument('--uvb', nargs='?',action='store', required=True, dest='uvb_file', help='Path to UV ackground data')
-parser.add_argument('--rs', action='store', dest='rs_range', default="1.2,2.7", type=str, help='Range of redshifts to analyze. Input is a list of 2 values from the lower to upper bound')
+parser.add_argument('-ds', nargs='?', action='store', required=True, dest='path', help='Path where  output data will be stored')
+parser.add_argument('-uvb', nargs='?',action='store', required=True, dest='uvb_dir', help='Path to UV ackground data')
+parser.add_argument('-rs', action='store', dest='rs_range', default="1.2 2.7", type=str, help='Range of redshifts to analyze. Input is a list of 2 values from the lower to upper bound')
 
 args = parser.parse_args()
 dic_args = vars(args)
 
 # converting rs argument into a list
-rs_range = args.rs_range.split(",")
+rs_range = args.rs_range.split(" ")
 
-# loading in array for desired energy bins
-uvb_rs = np.genfromtxt(args.uvb_file, max_rows = 1)
+# load in location of dirctory
+uvb_dir =  args.uvb_dir
+uvb_dir_list = os.listdir(uvb_dir)
+# filter out all the files that do not have redshifts I want
+in_rs_range = []
+for i,filename in enumerate(uvb_dir_list):
+    rs = float(filename[2:10])
+    if (rs >= float(rs_range[0])) and (rs <= float(rs_range[1])):
+        in_rs_range.append(uvb_dir+"/"+filename)
 
-# creating a mask to isolate desired redshift data
-rs_mask = np.where((uvb_rs>=float(rs_range[0])) & (uvb_rs<=float(rs_range[1])))
+# convert those into the units that cloudy is happy with
+rs_dict = {}
+for filename in in_rs_range:
+    rs = float(filename[-13:-5])
+    f = pd.read_csv(filename, 
+        usecols = ["E (eV)",  "I (erg/s/cm**2)"])
+    nu = f["E (eV)"].to_numpy()/13.605703976
+    intens = ((f['E (eV)'].to_list()*u.eV).to("J")/(u.h)).to_value()
+    spec = (f["I (erg/s/cm**2)"]/intens/(4*np.pi)).to_numpy()
 
-# masking redhsifts with desired analysis range using previously generated mask
-uvb_rs = uvb_rs[rs_mask]
-
-# reading in actual data
-uvb_data = np.genfromtxt(args.uvb_file, skip_header=11)
-
-# assigning wave range to variable
-uvb_wave = uvb_data[:,0]
-
-# masking out uvb data with redshift mask
-uvb_data = uvb_data[:,rs_mask]
-
-# labeling wave data (Angstroms)
-nuvb_wave = uvb_wave * u.Angstrom
-
-# converting wavelengths to energy
-Ryd = 2.1798723611035e-18 * u.J
-nu = nuvb_wave.to("J", equivalence="spectral") / Ryd
-nu = nu.to_value()
-nu = np.round(nu,6)
-
-# locating pairs of data within wave data that are duplicates
-unq_nu, freq = np.unique(nu, return_counts=True)
-pairs = [(nu == val).nonzero()[0] for val in unq_nu[freq>1]] # list of arrays w/ indicies
-
-# goes through each of the pairs of duplicated data and adjusts the wavelengths very slightly
-for pair in pairs:
-
-    assert pair.size==2, "More than two duplicates found"
-    assert pair[0] < pair[1]
-
-    # adjust wavelenghts by 0.0001%
-    nu[pair[0]] -= 0.000001 * nu[pair[0]]
-    nu[pair[1]] += 0.000001 * nu[pair[1]]
-
-# ensuring the nu array is ordered correctly
-nu_msk = None
-if len(np.where(np.diff(nu)>=0)) > 0:
-    nu_msk = np.argsort(nu)[::-1]
-    nu = nu[nu_msk]
-
-assert np.where(np.diff(nu)>=0), "nu array resort failed"
+    # storing energy bins (nu) and intensity (sepc) for each rs in range
+    rs_dict[rs] = [nu,spec]
 
 # initializing list to store redshift data
 conv_rs = []
@@ -77,28 +52,21 @@ source = "NA"
 lJ_pad = -50
 
 # iterating through each redshift
-for irs in range(len(uvb_rs)):
+for rs in rs_dict.keys():
 
     # setting the current redshift
-    rs = uvb_rs[irs]
+    # rs = uvb_rs[irs]
     
     print("Running redshift",f"{rs:.4e}")
     
     conv_rs.append(f"{rs:.4e}")
     
     # calling the uvb intensity data for the current redshift
-    spec = uvb_data[:,0,irs]*u.erg/u.cm**2
-    
-    assert str(spec.units) == "erg/cm**2", f"""UV Intensities are in incorrect 
-                                units. Got {spec.units} when should have 
-                                gotten erg/cm**2"""
+    nu = np.flip(rs_dict[rs][0])
+    spec = np.flip(rs_dict[rs][1])
     
     spec = np.log10(spec)
-
-    assert nu_msk is not None, "nu_msk is not being defined correctly"
-
-    spec = spec[nu_msk]
-
+    
     # generate interpolation function
     interp = interp1d(nu, spec, fill_value = "extrapolate")
     

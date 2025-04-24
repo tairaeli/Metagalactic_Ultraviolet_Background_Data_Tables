@@ -1,9 +1,9 @@
 # In This Directory
 
-**gen\_cloudy\_input.py** - reformats UVB models into a format that CLOUDY will accept. Takes in 3 arguments:
-* `--ds` (str): location of output file
-* `--uvb` (str): location of UVB data
-* `--rs` (str): set range for redshifts to iterate through (e.g. "1.2,2.7")
+**gen\_cloudy\_input.py** - reformats csv files from make\_UVB\_data\_tables.py to format that CLOUDY will accept. Takes in 3 arguments:
+* `-ds` (str): location of output file
+* `-uvb` (str): location of UVB data
+* `-rs` (str): set range for redshifts to iterate through (e.g. "1.2,2.7")
 
 **full\_cloudy.py** - runs cloudy spectral synthesis simulations in parallel. Requires 6 arguments that are defined within the code:
 * `start_part` - first part number in which the code will run from. The cloudy simulation is broken up into a number of parts to be run in parallel.
@@ -33,7 +33,7 @@ TODO update this file with sample data
 TODO: update these paths with more useful dummys (possibly drawn from sample workflow)
 
 ```
-python gen_cloudy_input.py --ds /mnt/scratch/tairaeli/pcw_uvb_dat  --uvb /mnt/home/tairaeli/trident_uncertainty/mods/abundances/data_bin puchwein19_bkgthick.out
+python gen_cloudy_input.py -ds /output/directory/here  -uvb /location/of/make_UVB_data_table.py/csv/output -rs
 ```
 
 ###  *Fauchere Guigere 2020*
