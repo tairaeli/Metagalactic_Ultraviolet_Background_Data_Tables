@@ -36,6 +36,8 @@ nrays = int(plot_args["galaxy_settings"]["nrays"])
 
 # identifying the path argument as a variable
 out_path = plot_args["base_settings"]["output_file"]
+if os.path.exists(out_path) == False:
+    os.mkdir(out_path)
 
 # initializing UVB data
 uvb_names = plot_args["uvb_analysis"]["uvb_names"].split(" ")
