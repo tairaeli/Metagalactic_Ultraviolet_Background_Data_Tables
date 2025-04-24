@@ -1,5 +1,10 @@
 # In This Directory
 
+### Note to user
+Running some of the code in this directory requires a working installation of [`cloudy_cooling_tools`](https://github.com/brittonsmith/cloudy_cooling_tools). To install, clone the repo as seen [here](https://github.com/brittonsmith/cloudy_cooling_tools), navigate to the `cloudy_grids` directory and run `setup.py`.
+
+**cloudy_input_bin_example** - directory acting as a bin for the output of gen_cloudy_input.py, as well as the input files for running the cloudy pipeline
+
 **gen\_cloudy\_input.py** - reformats csv files from make\_UVB\_data\_tables.py to format that CLOUDY will accept. Takes in 3 arguments:
 * `-ds` (str): location of output file
 * `-uvb` (str): location of UVB data
@@ -23,13 +28,9 @@
 * path to ultraviolet background data
 * list of redshifts to use (from the input UVB filenames)
 
-TODO update this file with sample data
-
 **plot\_params.par** - parameter file for creating plot comparisons
 
-### Example scripts for *gen\_uvb\_input.py*
-
-###  *Fauchere Guigere 2020*
+### Example scripts for *gen\_uvb\_input.py* (FG20)
 
 ```
 python gen_cloudy_input.py -ds cloudy_input_bin_example -uvb ../data_table_example/fg20 -rs "1.2 2.7"
