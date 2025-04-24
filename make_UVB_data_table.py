@@ -62,14 +62,12 @@ uvb_names = args.uvb_name.split(" ")
 uvb_paths = args.uvb_paths.split(" ")
 out_dir = args.out_path
 
-print(out_dir)
+
 
 # checking for output table
 # out_dir = "/mnt/scratch/tairaeli/UVB_data_table/"
 if os.path.exists(out_dir) == False:
     os.mkdir(out_dir)
-
-# uvb_names = ["fg20", "hm12", "pw19", "fg09"]
 
 # making uvb dirs
 for name in uvb_names:
@@ -77,7 +75,6 @@ for name in uvb_names:
         os.mkdir(out_dir+name)
 
 # processing fg09 data
-# fg09 data is formatted differently than other files
 fg09_dir = uvb_paths[0]
 
 
@@ -107,8 +104,11 @@ for filename in os.listdir(fg09_dir):
         fg09.to_csv(out_dir+f"{uvb_names[0]}/z_{int(n1):02}"+"."+f"{n2}.csv")
         print("OUT:",f"{uvb_names[0]}/z_{int(n1):02}"+"."+f"{n2}.csv")
 
-dir_list = uvb_paths[1:]
+n=0
+if not os.listdir(fg09_dir)[0].endswith(".dat"):
+    n=1
 
+dir_list = uvb_paths[(1-n):]
 for i,dir_loc in enumerate(dir_list):
     for filename in os.listdir(dir_loc):
         rs = 999
@@ -125,12 +125,9 @@ for i,dir_loc in enumerate(dir_list):
 
             assert rs != 999, "filename processing failed"
             
-            # formatting
-            # n1,n2 = str(rs).split(".")
-            
             n1 = rs//1
             n2= rs%1
             n2 = f"{n2:.6f}"[2:]
             
-            out_df.to_csv(out_dir+f"{uvb_names[i+1]}/z_{int(n1):02}"+"."+f"{n2}.csv")
-            print("OUT:",f"{uvb_names[i+1]}/z_{int(n1):02}"+"."+f"{n2}.csv")
+            out_df.to_csv(out_dir+f"{uvb_names[i+1-n]}/z_{int(n1):02}"+"."+f"{n2}.csv")
+            print("OUT:",f"{uvb_names[i+1-n]}/z_{int(n1):02}"+"."+f"{n2}.csv")

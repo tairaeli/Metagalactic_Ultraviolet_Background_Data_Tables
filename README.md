@@ -14,7 +14,6 @@ a working installation of CLOUDY, the code for which can be found [here](https:/
 All of these scripts come along with plotting scripts to illustrate a few use cases for
 the codes in the directory.
 
-
 ## Directories
 
 ### cloudy\_formatted\_data
@@ -67,7 +66,7 @@ the data output from `make_UVB_data_table.py` (i.e. `data_tables` directory)
 
 **Example**
 ```
-python plot_uvb_spec.py -out_path ./ -table_dir ./data_table_example/ -uvb_names "fg09 fg20 hm12 pw19" -rs 2.5
+python plot_uvb_spec.py -out_path ./ -table_dir ./data_table_example -rs 2.5
 ```
 
 ## Dependencies

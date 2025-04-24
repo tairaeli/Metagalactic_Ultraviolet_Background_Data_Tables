@@ -41,7 +41,7 @@ def read_cloudy_in(file):
 parser = argparse.ArgumentParser(description = "Generate UVB data tables for different UVBs")
 
 parser.add_argument('-out_path', action='store', 
-                    required=False, dest='rs', 
+                    required=False, dest='out_path', 
                     default= "./",
                     help='output directory for figure')
 
@@ -50,10 +50,10 @@ parser.add_argument('-table_dir', action='store',
                     default= "./data_table_example/",
                     help='Directory where UVB tables have been saved to. Should be the only items in the directory')
 
-parser.add_argument('-uvb_names', action='store', 
-                    required=False, dest='uvb_names', 
-                    default= "FG09 FG20 HM12 PW19",
-                    help='Names of UVB tables')
+# parser.add_argument('-uvb_names', action='store', 
+#                     required=False, dest='uvb_names', 
+#                     default= "FG09 FG20 HM12 PW19",
+#                     help='Names of UVB tables')
 
 parser.add_argument('-rs', action='store', 
                     required=False, dest='rs', 
@@ -65,8 +65,8 @@ args = parser.parse_args()
 # reading in arguments
 table_loc = args.table_dir
 table_dirs = os.listdir(table_loc)
-uvb_names = args.uvb_names.split(" ")
-print(uvb_names)
+uvb_names = os.listdir(table_loc)
+print(table_dirs)
 rs = float(args.rs)
 
 # reading in data
@@ -180,6 +180,6 @@ ax.set_yscale("log")
 ax.set_xscale("log")
 ax.set_ylabel(r"4$\pi$$\nu$$J_{\nu}$ (erg $s^{-1}$ $cm^{-2}$)", fontsize = 16)
 ax.set_xlabel("log(E) (eV)", fontsize = 16)
-plt.savefig("./uvb_intens_plot.png")
+plt.savefig(args.out_path+"uvb_intens_plot.png")
 
 print("Plot Complete")
