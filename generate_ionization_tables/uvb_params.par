@@ -70,5 +70,6 @@ command iterate to convergence
 loop [hden] (-9;4;0.13)
 
 # List the desired redshifts
-# TODO update this loop to reflect the provided sample data
-loop [init "../cloudy_formatted_data/PW19/z_*.out"] 1.4870e+00 1.6090e+00 2.0130e+00 2.1600e+00 2.4790e+00 2.6490e+00
+
+# example for FG20 data 
+loop [init "/generate_ionization_tables/cloudy_input_bin_example] z_2.4800e+00.out z_2.5000e+00.out z_2.5200e+00.out
