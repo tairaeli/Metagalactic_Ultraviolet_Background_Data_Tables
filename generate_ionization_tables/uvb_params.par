@@ -54,7 +54,7 @@ coolingMapTpoints = 321
 # elements for ion fraction tables
 ionFractionElements = H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn
 
-# turning on self-shielding
+# self-shielding (0 for off, 1 for on)
 coolingMapUseJeansLength = 1
 
 ############################################################

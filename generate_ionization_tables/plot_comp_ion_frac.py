@@ -67,7 +67,7 @@ for i in range(len(uvb_names)):
         print("Ion: "+ion)
 
         # creating figure
-        fig, ax = plt.subplots(1, 1, figsize=(5,5))
+        fig, ax = plt.subplots(1, 1, figsize=(6,5))
         cmap = cm.get_cmap('viridis')
         im = cm.ScalarMappable()
         w_size = 10
@@ -109,6 +109,13 @@ for i in range(len(uvb_names)):
 
         ax.text(0.1,0.82,uvb_names[i], 
                 fontsize=ax_lab_size+4, transform=ax.transAxes)
+        
+        cb1 = fig.colorbar(f1,ax = ax)
+
+        ax.text(1.2, 0.1, 
+                f'log({ion_name_dict[ion]}) Fraction Ratio', fontsize=ax_lab_size,
+                transform=ax.transAxes, rotation=270)
+
 
         plt.tight_layout()
         # saving figure
