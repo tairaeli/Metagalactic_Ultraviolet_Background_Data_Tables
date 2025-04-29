@@ -1,5 +1,5 @@
 """
-Generates a UV Background using Cloudy Cooling Tools
+Generates a UV Background using CLOUDY Cooling Tools
 """
 from mpi4py import MPI
 import subprocess
@@ -81,3 +81,4 @@ if __name__ == "__main__":
             sys.exit(1)
 
         print_log("Finished part %d of %d." % (i, total_parts))
+

@@ -1,6 +1,6 @@
 """
-Reformats cloudy data to match : Faucher-Gruigere 2009, 
-Faucher-Gruigere 2020, Haart and Madau 2012, and Puchwein et al. 2019 for 
+Reformats cloudy data to match : Faucher-Giguere 2009,
+Faucher-Giguere 2020, Haardt and Madau 2012, and Puchwein et al. 2019 for
 redshifts ~0-10. All intensities the same units of erg/s/cm**2.
 """
 
@@ -14,11 +14,11 @@ import os
 
 def read_cloudy_in(file):
     """
-    Reads in cloudy input files as pandas Data Frames
+    Reads in CLOUDY input files as pandas Data Frames
 
     args:
 
-        file (str) - path to cloudy input file
+        file (str) - path to CLOUDY input file
     
     returns:
 
@@ -61,8 +61,6 @@ args = parser.parse_args()
 uvb_names = args.uvb_name.split(" ")
 uvb_paths = args.uvb_paths.split(" ")
 out_dir = args.out_path
-
-
 
 # checking for output table
 # out_dir = "/mnt/scratch/tairaeli/UVB_data_table/"

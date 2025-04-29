@@ -13,11 +13,11 @@ import os
 
 def read_cloudy_in(file):
     """
-    Reads in cloudy input files as pandas Data Frames
+    Reads in CLOUDY input files as Pandas Data Frames
 
     args:
 
-        file (str) - path to cloudy input file
+        file (str) - path to CLOUDY input file
     
     returns:
 
