@@ -1,6 +1,6 @@
 # In this directory
 
-It should be noted that the data files are not binned in consistent redshifts, nor are the files themselves binned in consistent energy between models. This is a result of each UVB model originating from different authors, and thus they binned their data differently.
+It should be noted that the data files are not binned in consistent redshifts, nor are the files themselves binned in consistent energy between models. This is a result of each UVB model originating from different authors who binned their data differently.
 
 If you want to interpolate to compare intensities at similar energies, you can use the [numpy interp](https://numpy.org/doc/stable/reference/generated/numpy.interp.html) function. An example on how to run this is shown below
 
