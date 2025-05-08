@@ -13,6 +13,8 @@ a working installation of CLOUDY, the code for which can be found [here](https:/
 All of these tools come along with plotting scripts to illustrate a few use cases for
 the codes in the directory.
 
+[![DOI](https://zenodo.org/badge/980154341.svg)](https://doi.org/10.5281/zenodo.15367102)
+
 ## Directories
 
 ### cloudy\_formatted\_data
