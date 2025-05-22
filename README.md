@@ -90,5 +90,3 @@ The Python scripts in this repository require the following libraries:
 
 * [CLOUDY](https://gitlab.nublado.org/cloudy/cloudy)
 * [`cloudy_cooling_tools`](https://github.com/brittonsmith/cloudy_cooling_tools)
-
-All data and code in this repository are provided under a [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode) license. 
